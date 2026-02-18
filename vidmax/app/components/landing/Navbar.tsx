@@ -4,6 +4,8 @@
 import * as React from "react"
 import Link from "next/link"
 import { Menu, Zap } from "lucide-react"
+import { SignInButton, SignOutButton, SignUpButton, UserButton, SignedIn, SignedOut } from "@clerk/nextjs"
+
 
 import { Button } from "@/components/ui/button"
 import {
@@ -45,13 +47,26 @@ export default function Navbar() {
                 </div>
 
                 <div className="hidden md:flex items-center gap-4">
-                    <Link href="/login" className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">
-                        Log in
-                    </Link>
-                    <Button size="sm" className="bg-white text-black hover:bg-zinc-200">
-                        Get Started
-                    </Button>
+                    <SignedOut>
+                        <SignInButton mode="modal">
+                            <button className="text-sm font-medium text-zinc-400 hover:text-white transition-colors cursor-pointer">
+                                Log in
+                            </button>
+                        </SignInButton>
+                        <SignUpButton mode="modal">
+                            <Button size="sm" className="bg-white text-black hover:bg-zinc-200">
+                                Get Started
+                            </Button>
+                        </SignUpButton>
+                    </SignedOut>
+                    <SignedIn>
+                        <Link href="/dashboard" className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">
+                            Dashboard
+                        </Link>
+                        <UserButton afterSignOutUrl="/" />
+                    </SignedIn>
                 </div>
+
 
                 {/* Mobile Nav */}
                 <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -73,17 +88,33 @@ export default function Navbar() {
                                     {link.name}
                                 </Link>
                             ))}
-                            <hr className="border-white/10" />
-                            <Link
-                                href="/login"
-                                className="text-lg font-medium text-zinc-400 hover:text-white transition-colors"
-                                onClick={() => setIsOpen(false)}
-                            >
-                                Log in
-                            </Link>
-                            <Button className="w-full bg-violet-600 hover:bg-violet-700 text-white">
-                                Get Started
-                            </Button>
+                            <SignedOut>
+                                <hr className="border-white/10" />
+                                <SignInButton mode="modal">
+                                    <button className="text-lg font-medium text-zinc-400 hover:text-white transition-colors text-left" onClick={() => setIsOpen(false)}>
+                                        Log in
+                                    </button>
+                                </SignInButton>
+                                <SignUpButton mode="modal">
+                                    <Button className="w-full bg-violet-600 hover:bg-violet-700 text-white" onClick={() => setIsOpen(false)}>
+                                        Get Started
+                                    </Button>
+                                </SignUpButton>
+                            </SignedOut>
+                            <SignedIn>
+                                <Link
+                                    href="/dashboard"
+                                    className="text-lg font-medium text-zinc-400 hover:text-white transition-colors"
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    Dashboard
+                                </Link>
+                                <div className="flex items-center gap-2 text-zinc-400">
+                                    <UserButton afterSignOutUrl="/" />
+                                    <span className="text-sm">Account</span>
+                                </div>
+                            </SignedIn>
+
                         </div>
                     </SheetContent>
                 </Sheet>

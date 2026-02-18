@@ -1,6 +1,8 @@
 
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { SignedIn, SignedOut, SignUpButton } from "@clerk/nextjs"
+
 
 export default function Hero() {
     return (
@@ -21,13 +23,25 @@ export default function Hero() {
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <Button size="lg" className="h-12 px-8 text-base bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white border-0 shadow-lg shadow-violet-500/20 rounded-full transition-all hover:scale-105">
-                        Start Generating Free
-                    </Button>
+                    <SignedOut>
+                        <SignUpButton mode="modal">
+                            <Button size="lg" className="h-12 px-8 text-base bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white border-0 shadow-lg shadow-violet-500/20 rounded-full transition-all hover:scale-105">
+                                Start Generating Free
+                            </Button>
+                        </SignUpButton>
+                    </SignedOut>
+                    <SignedIn>
+                        <Link href="/dashboard">
+                            <Button size="lg" className="h-12 px-8 text-base bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white border-0 shadow-lg shadow-violet-500/20 rounded-full transition-all hover:scale-105">
+                                Go to Dashboard
+                            </Button>
+                        </Link>
+                    </SignedIn>
                     <Button variant="outline" size="lg" className="h-12 px-8 text-base border-zinc-800 bg-zinc-950 text-zinc-300 hover:bg-zinc-900 hover:text-white rounded-full transition-all">
                         View How it Works
                     </Button>
                 </div>
+
 
                 {/* Abstract Background Elements */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-violet-600/20 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
