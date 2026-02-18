@@ -14,14 +14,20 @@ export async function syncUser(userData: {
 
     try {
         // .upsert() handles the "if user exists" logic:
-        // It checks if 'user_id' already exists. If yes, it UPDATES; if no, it INSERTS.
-        const { error } = await supabaseAdmin.from("users").upsert({
-            user_id: userData.id, // Maps Clerk ID to your 'user_id' column
-            email: userData.email,
-            name: userData.name,
-            // avatar: userData.avatar,
-            // updated_at is handled by DB or added here if needed
-        })
+        // It checks if 'email' already exists. If yes, it UPDATES; if no, it INSERTS.
+        // We use onConflict: 'email' to ensure syncing works even if the User ID changes.
+        const { error } = await supabaseAdmin.from("users").upsert(
+            {
+                user_id: userData.id, // Maps Clerk ID to your 'user_id' column
+                email: userData.email,
+                name: userData.name,
+                // avatar is disabled for now
+                // updated_at is handled by DB or added here if needed
+            },
+            { onConflict: 'email' }
+        )
+
+
 
 
         if (error) {
