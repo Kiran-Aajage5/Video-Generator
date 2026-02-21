@@ -49,10 +49,12 @@ export default function Sidebar() {
 
             {/* Action Button */}
             <div className="px-4 mb-6">
-                <Button className="w-full bg-violet-600 hover:bg-violet-700 text-white gap-2 h-11 text-base font-medium transition-all shadow-md shadow-violet-200">
-                    <PlusCircle className="w-5 h-5" />
-                    Create New Series
-                </Button>
+                <Link href="/dashboard/create">
+                    <Button className="w-full bg-violet-600 hover:bg-violet-700 text-white gap-2 h-11 text-base font-medium transition-all shadow-md shadow-violet-200">
+                        <PlusCircle className="w-5 h-5" />
+                        Create New Series
+                    </Button>
+                </Link>
             </div>
 
             {/* Main Navigation */}
