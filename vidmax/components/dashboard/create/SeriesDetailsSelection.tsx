@@ -14,7 +14,7 @@ interface SeriesDetailsSelectionProps {
     onSeriesNameChange: (name: string) => void
     duration: string
     onDurationChange: (duration: string) => void
-    platform: string
+    platforms: string[]
     onPlatformSelect: (platform: string) => void
     publishTime: string
     onPublishTimeChange: (time: string) => void
@@ -32,7 +32,7 @@ export const SeriesDetailsSelection = ({
     onSeriesNameChange,
     duration,
     onDurationChange,
-    platform,
+    platforms,
     onPlatformSelect,
     publishTime,
     onPublishTimeChange
@@ -98,7 +98,7 @@ export const SeriesDetailsSelection = ({
                     <Label className="text-sm font-semibold text-zinc-700 uppercase tracking-wider">Select Platform</Label>
                     <div className="grid grid-cols-2 gap-3">
                         {Platforms.map((p) => {
-                            const isSelected = platform === p.id
+                            const isSelected = platforms.includes(p.id)
                             return (
                                 <Card
                                     key={p.id}

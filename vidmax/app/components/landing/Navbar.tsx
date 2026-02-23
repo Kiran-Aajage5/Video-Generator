@@ -16,6 +16,11 @@ import {
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = React.useState(false)
+    const [isMounted, setIsMounted] = React.useState(false)
+
+    React.useEffect(() => {
+        setIsMounted(true)
+    }, [])
 
     const navLinks = [
         { name: "Features", href: "#features" },
@@ -69,55 +74,57 @@ export default function Navbar() {
 
 
                 {/* Mobile Nav */}
-                <Sheet open={isOpen} onOpenChange={setIsOpen}>
-                    <SheetTrigger asChild className="md:hidden">
-                        <Button variant="ghost" size="icon" className="text-zinc-400">
-                            <Menu className="h-6 w-6" />
-                            <span className="sr-only">Toggle menu</span>
-                        </Button>
-                    </SheetTrigger>
-                    <SheetContent side="right" className="w-[300px] border-l border-white/10 bg-black/95 backdrop-blur-xl p-6">
-                        <div className="flex flex-col gap-6 mt-8">
-                            {navLinks.map((link) => (
-                                <Link
-                                    key={link.name}
-                                    href={link.href}
-                                    className="text-lg font-medium text-zinc-400 hover:text-white transition-colors"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    {link.name}
-                                </Link>
-                            ))}
-                            <SignedOut>
-                                <hr className="border-white/10" />
-                                <SignInButton mode="modal">
-                                    <button className="text-lg font-medium text-zinc-400 hover:text-white transition-colors text-left" onClick={() => setIsOpen(false)}>
-                                        Log in
-                                    </button>
-                                </SignInButton>
-                                <SignUpButton mode="modal">
-                                    <Button className="w-full bg-violet-600 hover:bg-violet-700 text-white" onClick={() => setIsOpen(false)}>
-                                        Get Started
-                                    </Button>
-                                </SignUpButton>
-                            </SignedOut>
-                            <SignedIn>
-                                <Link
-                                    href="/dashboard"
-                                    className="text-lg font-medium text-zinc-400 hover:text-white transition-colors"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    Dashboard
-                                </Link>
-                                <div className="flex items-center gap-2 text-zinc-400">
-                                    <UserButton afterSignOutUrl="/" />
-                                    <span className="text-sm">Account</span>
-                                </div>
-                            </SignedIn>
+                {isMounted && (
+                    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                        <SheetTrigger asChild className="md:hidden">
+                            <Button variant="ghost" size="icon" className="text-zinc-400">
+                                <Menu className="h-6 w-6" />
+                                <span className="sr-only">Toggle menu</span>
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent side="right" className="w-[300px] border-l border-white/10 bg-black/95 backdrop-blur-xl p-6">
+                            <div className="flex flex-col gap-6 mt-8">
+                                {navLinks.map((link) => (
+                                    <Link
+                                        key={link.name}
+                                        href={link.href}
+                                        className="text-lg font-medium text-zinc-400 hover:text-white transition-colors"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        {link.name}
+                                    </Link>
+                                ))}
+                                <SignedOut>
+                                    <hr className="border-white/10" />
+                                    <SignInButton mode="modal">
+                                        <button className="text-lg font-medium text-zinc-400 hover:text-white transition-colors text-left" onClick={() => setIsOpen(false)}>
+                                            Log in
+                                        </button>
+                                    </SignInButton>
+                                    <SignUpButton mode="modal">
+                                        <Button className="w-full bg-violet-600 hover:bg-violet-700 text-white" onClick={() => setIsOpen(false)}>
+                                            Get Started
+                                        </Button>
+                                    </SignUpButton>
+                                </SignedOut>
+                                <SignedIn>
+                                    <Link
+                                        href="/dashboard"
+                                        className="text-lg font-medium text-zinc-400 hover:text-white transition-colors"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        Dashboard
+                                    </Link>
+                                    <div className="flex items-center gap-2 text-zinc-400">
+                                        <UserButton afterSignOutUrl="/" />
+                                        <span className="text-sm">Account</span>
+                                    </div>
+                                </SignedIn>
 
-                        </div>
-                    </SheetContent>
-                </Sheet>
+                            </div>
+                        </SheetContent>
+                    </Sheet>
+                )}
             </div>
         </nav>
     )
