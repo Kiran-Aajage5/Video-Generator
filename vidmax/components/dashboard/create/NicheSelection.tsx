@@ -59,6 +59,9 @@ export const NicheSelection = ({
     customNiche,
     onCustomNicheChange
 }: NicheSelectionProps) => {
+    const isCustom = selectedNiche === "Custom" || !!customNiche
+    const currentTab = isCustom ? "custom" : "available"
+
     return (
         <div className="space-y-8">
             <div className="text-left space-y-1">
@@ -66,7 +69,17 @@ export const NicheSelection = ({
                 <p className="text-zinc-500 text-lg">Choose a niche that best fits your series or create a custom one.</p>
             </div>
 
-            <Tabs defaultValue="available" className="w-full">
+            <Tabs
+                value={currentTab}
+                onValueChange={(val) => {
+                    if (val === "available" && selectedNiche === "Custom") {
+                        onSelect("") // Reset if switching back to available and nothing selected
+                    } else if (val === "custom" && selectedNiche !== "Custom") {
+                        onSelect("Custom")
+                    }
+                }}
+                className="w-full"
+            >
                 <TabsList className="bg-zinc-100 p-1 h-12 w-fit rounded-xl mb-8">
                     <TabsTrigger
                         value="available"
@@ -82,7 +95,7 @@ export const NicheSelection = ({
                     </TabsTrigger>
                 </TabsList>
 
-                <TabsContent value="available">
+                <TabsContent value="available" className="focus-visible:outline-none">
                     <ScrollArea className="h-[450px] pr-4">
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                             {niches.map((niche) => (
@@ -112,7 +125,7 @@ export const NicheSelection = ({
                     </ScrollArea>
                 </TabsContent>
 
-                <TabsContent value="custom">
+                <TabsContent value="custom" className="focus-visible:outline-none">
                     <Card className="p-8 border-zinc-200 rounded-2xl shadow-sm space-y-6">
                         <div className="space-y-4">
                             <h3 className="text-xl font-bold text-zinc-900 tracking-tight">Custom Niche Name</h3>

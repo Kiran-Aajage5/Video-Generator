@@ -9,6 +9,7 @@ interface CreateVideoFooterProps {
     onBack: () => void
     onContinue: () => void
     canContinue: boolean
+    isEditing?: boolean
 }
 
 export const CreateVideoFooter = ({
@@ -16,6 +17,7 @@ export const CreateVideoFooter = ({
     onBack,
     onContinue,
     canContinue,
+    isEditing = false,
 }: CreateVideoFooterProps) => {
     return (
         <div className="fixed bottom-0 left-0 right-0 border-t bg-background/80 backdrop-blur-md p-4 flex justify-between items-center z-50">
@@ -33,7 +35,7 @@ export const CreateVideoFooter = ({
                     disabled={!canContinue}
                     className="flex items-center gap-2"
                 >
-                    {currentStep === 6 ? "Schedule" : "Continue"}
+                    {currentStep === 6 ? (isEditing ? "Update Series" : "Schedule") : "Continue"}
                     {currentStep === 6 ? (
                         <Calendar className="w-4 h-4" />
                     ) : (
